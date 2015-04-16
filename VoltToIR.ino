@@ -5,7 +5,7 @@
 #define NEC
 
 // Include header files
-#include <Flash.h>
+#include "Flash.h"
 #include <IRremote.h>
 
 // Pins
@@ -18,7 +18,7 @@ static const unsigned long WHITE_INPUT_PIN 3
 static const unsigned long POWER_CODE = 0x20DF02FD;
 static const unsigned long DAYLIGHT_CODE = 0x20DF58A7;
 static const unsigned long M1_CODE = 0x20DF18E7;
-static const unsigned long M2_CODE = 0x20DF9867;s
+static const unsigned long M2_CODE = 0x20DF9867;
 static const unsigned long MOON_CODE = 0x20DFD827;
 static const unsigned long RED_UP_CODE = 0x20DF0AF5;
 static const unsigned long RED_DOWN_CODE = 0x20DF38C7;
