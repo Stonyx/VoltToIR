@@ -1,5 +1,5 @@
 // Uncomment to enable debug messages
-#define DEBUG
+// #define DEBUG
 
 // Define NEC so that only the NEC sections of the IRRemote library are included
 #define NEC
@@ -9,10 +9,10 @@
 #include <IRremote.h>
 
 // Pins
-static const unsigned long RED_INPUT_PIN 0
-static const unsigned long GREEN_INPUT_PIN 1
-static const unsigned long BLUE_INPUT_PIN 2
-static const unsigned long WHITE_INPUT_PIN 3
+static const byte RED_INPUT_PIN = 0;
+static const byte GREEN_INPUT_PIN = 1;
+static const byte BLUE_INPUT_PIN = 2;
+static const byte WHITE_INPUT_PIN = 3;
 
 // Remote control codes
 static const unsigned long POWER_CODE = 0x20DF02FD;
@@ -43,8 +43,8 @@ FLASH_STRING_ARRAY(fColors, PSTR("red"), PSTR("green"), PSTR("blue"), PSTR("whit
 #endif
 
 // Global variables
-static byte[] gCurrentColorValues = {0, 0, 0, 0};
-static byte[][] gPreprogrammedColorValues = {{100, 100, 100, 100}, {80, 80, 80, 80}, {60, 60, 60, 60}, 
+static byte gCurrentColorValues[] = {0, 0, 0, 0};
+static byte gPreprogrammedColorValues[][4] = {{100, 100, 100, 100}, {80, 80, 80, 80}, {60, 60, 60, 60}, 
     {40, 40, 40, 40}, {20, 20, 20, 20}, {0, 0, 0, 0}};
 static IRsend gIRSend;
 static unsigned long gLastIRTime = 0;
@@ -63,15 +63,15 @@ void setup()
 void loop()
 {
   // Check if it's time to check if changes need to be made
-  if ((long)(millis() - (gLastChangeTime + CHANGE_DELAY)) >= 0)
+  if ((long)(millis() - (gLastIRTime + IR_DELAY)) >= 0)
   {
     // Loop through the colors
-    byte[4] newColorValues;
+    byte newColorValues[4];
     for (byte i = 0; i < 4; ++i)
     {
       // Calculate the new color value based on the voltage
       newColorValues[i] = (byte)((float)analogRead(fVoltageInputPins[i]) / (float)1023 * 
-                          (float)RGBW_VALUE_STEPS + (float)0.5)
+                          (float)RGBW_STEPS + (float)0.5);
 #ifdef DEBUG
       // Log details
       Serial << "New calculated " << fColors[i] << " color value based on voltage is " << newColorValues[i];
